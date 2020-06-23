@@ -6,7 +6,7 @@ import java.time.Year;
 
 
 @WebService(serviceName = "CheckFile")
-public class LifeLeftService {
+public class CheckFileService {
 
     private static final Integer ESPERANCE_VIE_HOMMES = 79;
     private static final Integer ESPERANCE_VIE_FEMMES = 85;
