@@ -1,31 +1,87 @@
 package com.lifeleft;
 
+
+
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
-import java.time.Year;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 
 @WebService(serviceName = "CheckFile")
 public class CheckFileService {
 
-    private static final Integer ESPERANCE_VIE_HOMMES = 79;
-    private static final Integer ESPERANCE_VIE_FEMMES = 85;
+    public CheckFileService(){
 
-    String homme = "homme";
-    String femme = "femme";
-
-    Integer evDeReference = 0;
+    }
 
     @WebMethod
-    public String  anneeRestantesAVivre (String prenom, String sexe, Integer anneeNaissance) {
+    public String checkFile (boolean statutOp, String info, String operationName, String tokenApp, String tokenUser, String appVersion, String operationVersion) {
+        Message message = new Message(statutOp, info, operationName, tokenApp, tokenUser, appVersion, operationVersion);
 
-        if(sexe.equals(homme)) evDeReference = ESPERANCE_VIE_HOMMES;
-        else evDeReference = ESPERANCE_VIE_FEMMES;
+        //int percent = getPercent(message.info);
+        /*if(percent>85){
+            String pdfFile = generatorPDF();
 
-        //Remarque, en cas de problème, vous pouvez changer Year.now().getValue() par Calendar.getInstance().get(Calendar.YEAR)
-        Integer anneeRestantes = evDeReference -(Year.now().getValue() - anneeNaissance );
+            return "Response";
+        }*/
 
-        return "Bonjour " + prenom + ", il vous reste " + anneeRestantes + " ans à vivre, profitez-en au maximum !";
+        String test = generatorPDF();
+
+        return test;
     }
+
+    private String generatorPDF(){
+        Document document = new Document();
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream("iTextHelloWorld.pdf"));
+            document.open();
+            Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
+            Chunk chunk = new Chunk("Hello World", font);
+
+            document.add(chunk);
+            document.close();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+            return "error";
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return "error";
+        }
+
+        return "Response";
+    }
+
+    private int getPercent(String path) {
+
+        try {
+            String content = readFile(path,  Charset.defaultCharset());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return 70;
+    }
+
+    private String readFile(String path, Charset encoding) throws IOException
+    {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
+    }
+
+    private boolean verifApp(){
+
+        return true;
+    }
+
 
 }
