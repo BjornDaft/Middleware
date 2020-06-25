@@ -1,13 +1,6 @@
 package com.lifeleft;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 public class Motor1 extends Motor {
-
-
 
     public Motor1(Message message) {
         super(message);
@@ -39,28 +32,19 @@ public class Motor1 extends Motor {
     //Get percent of French word in a text
     private int getPercent(String path) {
 
-        try {
-            //Get the content of the textfile in string
-            String content = readFile(path,  Charset.defaultCharset());
+        //Get the content of the textfile in string
+        FileReader fileReader = new FileReader(path);
+        String content = fileReader.readFileContent();
 
-            //Cut the string in a list of word
+        //Cut the string in a list of word
 
-            //For each word check in the database if he's exist
+        //For each word check in the database if he's exist
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            return 75;
-        }
 
         return 75;
     }
 
-    //Get the content of file in one String
-    private String readFile(String path, Charset encoding) throws IOException
-    {
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded, encoding);
-    }
+
 
 
 
